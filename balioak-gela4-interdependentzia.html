@@ -68,7 +68,22 @@ body{font-family:'Space Grotesk',sans-serif;background:var(--bg);color:var(--tex
 </style>
 </head>
 <body>
-<div id="s-intro" class="screen">
+<div id="s-lock" class="screen">
+  <div class="q-card" style="max-width:520px">
+    <div class="q-header">
+      <div class="q-icon">🔒</div>
+      <div><div class="q-meta">Sarrera blokeatuta</div><div class="q-num">Gela hau irekitzeko, aurreko gelako kodea behar duzu</div></div>
+    </div>
+    <div class="q-text">Gela honek <strong>Gela 3 (Ekimena)</strong> gaindituta izatea eskatzen du. Sartu handik lortutako digitua jarraitzeko.</div>
+    <div style="display:flex;gap:10px;max-width:280px;margin:0 auto;">
+      <input type="text" id="lock-input" placeholder="Kodea" maxlength="4" onkeydown="if(event.key==='Enter')checkLock()" style="flex:1;padding:12px 14px;border-radius:10px;border:1.5px solid var(--border);font-family:'JetBrains Mono',monospace;font-size:1.3rem;text-align:center;">
+      <button class="btn-start" style="padding:12px 20px;" onclick="checkLock()">✓</button>
+    </div>
+    <div class="q-fb" id="lock-fb"></div>
+  </div>
+</div>
+
+<div id="s-intro" class="screen hidden">
   <div class="room-badge">Balioak 4.0 · Gela 4 / 4</div>
   <h1 class="room-title">🌐 <span>Interdependentzia</span></h1>
   <img src="img/garapen-iraunkorra-helburuak.jpg" alt="NBEren Garapen Iraunkorrerako 17 Helburuak" style="width:100%;max-width:520px;border-radius:14px;margin-bottom:1.2rem;box-shadow:0 10px 40px rgba(0,0,0,.4);">
@@ -149,6 +164,20 @@ body{font-family:'Space Grotesk',sans-serif;background:var(--bg);color:var(--tex
 'use strict';
 const ROOM_COLOR='#16a34a';
 const CODE='6'; // Kode hau hub-eko CODES zerrendarekin bat etorri behar da
+const PREV_CODE='1'; // Aurreko gelaren (Ekimena) kodea — hemen sartu behar da hasteko
+
+function checkLock(){
+  const val=document.getElementById('lock-input').value.trim();
+  const fb=document.getElementById('lock-fb');
+  if(val===PREV_CODE){
+    fb.textContent='✓ Kode zuzena! Gela irekitzen...';
+    fb.className='q-fb show ok';
+    setTimeout(()=>showScreen('s-intro'),700);
+  } else {
+    fb.textContent='✗ Kode okerra. Galdetu aurreko taldeari edo irakasleari.';
+    fb.className='q-fb show err';
+  }
+}
 
 
 const QUESTIONS=[

@@ -72,6 +72,15 @@ const PHYSICAL_CODE='SOL4';
 
 Balio lehenetsiak: Gela 1 `SOL4`, Gela 2 `INK2`, Gela 3 `EKI3`, Gela 4 `INTER4`. Aldatu nahi badituzu, aldatu fitxategi bakoitzean.
 
+**Gelen arteko sekuentzia (blokeoa).** Gela 2, 3 eta 4k **sarrera-ate** bat dute: ezin da gela horiek ireki (galderarik ere ikusi gabe) aurreko gelaren kodea sartu gabe. Gela 1ek ez du atea, hasierako gela baita. Hau `PREV_CODE` aldagaian dago ezarrita gela bakoitzaren fitxategian:
+
+```js
+// adibidez balioak-gela2-inklusioa.html
+const PREV_CODE='4'; // Gela 1eko kodea
+```
+
+Horrek taldea benetan behartzen du ordena errespetatzera: ezin dute Gela 3 zuzenean ireki Gela 1 eta 2 egin gabe, nahiz eta URLa ezagutu.
+
 **Kokapenak.** Hub-eko `LOCATIONS` objektuan ezarri gela bakoitza non dagoen (horma, mahai...):
 
 ```js
