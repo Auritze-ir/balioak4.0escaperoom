@@ -33,7 +33,7 @@ https://<zure-erabiltzailea>.github.io/<repo-izena>/
 
 | Fitxategia | Deskribapena |
 |---|---|
-| `index.html` | Gida nagusia (urratsez urrats): sarrera-bideoa, 4 gelen bidalketa (kokapenekin), azken kandadua |
+| `index.html` | Mapa nagusia: sarrera-bideoa, 4 gelen estekak (kokapenekin), azken kandadua |
 | `balioak-gela1-solidaritatea.html` | Gela 1 — Solidaritatea (Taldeka jolasa, 8 postu) |
 | `balioak-gela2-inklusioa.html` | Gela 2 — Inklusioa (Marraztu jolasa, 8 postu paralelo) |
 | `balioak-gela3-ekimena.html` | Gela 3 — Ekimena (2 robot-labirinto paralelo) |
@@ -43,16 +43,17 @@ https://<zure-erabiltzailea>.github.io/<repo-izena>/
 
 ## 🎮 Nola funtzionatzen du
 
-1. Irakasleak `index.html` irekitzen du — **urratsez urrats gida** da: sarrera-bideoa, gero gela bakoitza banan-banan.
-2. Urrats bakoitzean, hub-ak esaten du **nora bidali taldea** (horma nagusia, mahai interaktiboa...) eta "Ireki Gela X" botoia dauka.
-3. Gela bakoitzean, taldeak **4 proba** gainditu behar ditu, hurrenkeran:
+Ikasleek **beren kabuz** egiten dute dena, hasieratik amaieraraino — ez da irakaslearen esku-hartzerik behar urratsez urrats aurrera egiteko:
+
+1. Taldeak `index.html` irekitzen du: sarrera-bideoa ikusi, eta gero **Gela 1** irekitzen du (beti irekita dago, hasierako gela baita).
+2. Gela bakoitzean, taldeak **4 proba** gainditu behar ditu, hurrenkeran:
    1. **🔍 Bilaketa** — galdera bat, erantzuna PDFan edo Interneten bilatuz.
    2. **🔧 Kode fisikoa** — irakasleak gelan prestatutako ariketa fisiko bat (giltzarrapoa, Braillea, zubia, giltza bikoitza...); kode bat sartu behar da webgunean aurrera egiteko.
    3. **📝 Galderak** — 6tik 3 zuzen erantzun behar dira.
    4. **✋ Jolas digitala** — hormaren/mahaiaren perimetro osoa erabiltzen duen jokoa, multitouch benetakoarekin.
-4. Jolasa gaindituta, gela bakoitzak **digitu bat** ematen du.
-5. Irakasleak hub-era itzuli eta "Hurrengo gelara" sakatzen du, hurrengo taldea/kokapena bidaltzeko.
-6. Azkenik, 4 digituak azken kandaduan sartu → kutxa nagusia irekitzen da. Ez dago hausnarketa-atalik inon; dena proba objektiboak dira, benetako eszape room baten moduan.
+3. Jolasa gaindituta, gela horrek **digitu bat** ematen du.
+4. Taldeak **berak** erabakitzen du noiz joan hurrengo gelara (`index.html`-eko mapan dago esteka, kokapenarekin batera). Baina **ezin dute saltatu**: Gela 2, 3 eta 4k **sarrera-ate** bat dute lehen pantailan, aurreko gelako digitua eskatzen dutena — kodea izan ezean, ez dute galderarik ere ikusiko. Horrek bermatzen du benetan ordenean eta osorik egingo dutela, irakaslearen kontrolik gabe.
+5. Azkenik, 4 digituak `index.html`-eko azken kandaduan sartu → kutxa nagusia irekitzen da. Ez dago hausnarketa-atalik inon; dena proba objektiboak dira, benetako eszape room baten moduan.
 
 ## ⚙️ Konfigurazioa (irakaslearentzat)
 
