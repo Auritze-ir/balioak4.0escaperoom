@@ -1,0 +1,439 @@
+<!DOCTYPE html>
+<html lang="eu">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Balioak 4.0 · Escape Room · Don Bosco LHII</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;700&family=JetBrains+Mono:wght@400;700&family=Playfair+Display:ital,wght@0,700;1,400&display=swap');
+
+:root{
+  --bg:#fafafa; --surface:#ffffff; --surface2:#f5f5f5; --border:#e5e5e5;
+  --text:#171717; --muted:#525252;
+  --erant:#d97706; /* Erantzukizuna */
+  --solid:#9333ea; /* Solidaritatea */
+  --inklu:#0891b2; /* Inklusioa */
+  --ekime:#ea580c; /* Ekimena */
+  --inter:#16a34a; /* Interdependentzia */
+  --shadow-card:0 1px 3px rgba(0,0,0,.06), 0 1px 2px rgba(0,0,0,.04);
+  --shadow-hover:0 12px 24px rgba(0,0,0,.08);
+}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+body{font-family:'Space Grotesk',sans-serif;background:var(--bg);color:var(--text);line-height:1.6;}
+
+.wrap{position:relative;z-index:2;max-width:960px;margin:0 auto;padding:2.5rem 1.4rem 5rem;}
+
+.header{text-align:center;margin-bottom:2rem;position:relative;border-radius:20px;overflow:hidden;padding:2.6rem 1.4rem;background:linear-gradient(rgba(255,255,255,.88),rgba(255,255,255,.95)),url('img/hero-cover.jpg') center 30%/cover;border:1px solid var(--border);box-shadow:var(--shadow-card);}
+.ev-badge{display:inline-block;font-family:'JetBrains Mono',monospace;font-size:.7rem;color:var(--erant);letter-spacing:.15em;text-transform:uppercase;border:1px solid #fde68a;padding:5px 16px;border-radius:99px;background:#fffbeb;margin-bottom:1rem;font-weight:600;}
+.ev-title{font-family:'Playfair Display',serif;font-size:clamp(2rem,5.5vw,3.4rem);font-weight:700;color:var(--text);line-height:1.12;margin-bottom:.6rem;}
+.ev-title span{font-style:italic;background:linear-gradient(90deg,var(--solid),var(--inklu),var(--ekime),var(--inter));-webkit-background-clip:text;background-clip:text;color:transparent;}
+.ev-sub{font-size:.95rem;color:var(--muted);max-width:640px;margin:0 auto;}
+
+.tabs{display:flex;gap:6px;margin-bottom:1.8rem;background:var(--surface2);border:1px solid var(--border);border-radius:12px;padding:5px;overflow-x:auto;}
+.tab{flex:1;white-space:nowrap;padding:10px 12px;border:none;background:transparent;color:var(--muted);font-family:'Space Grotesk',sans-serif;font-size:.84rem;font-weight:500;border-radius:8px;cursor:pointer;transition:all .2s;}
+.tab.active{background:var(--surface);color:var(--text);box-shadow:var(--shadow-card);font-weight:700;}
+.panel{display:none;animation:fadeIn .3s ease;}
+.panel.active{display:block;}
+@keyframes fadeIn{from{opacity:0;transform:translateY(6px);}to{opacity:1;transform:translateY(0);}}
+
+h2.sect{font-family:'Playfair Display',serif;font-size:1.6rem;font-weight:700;color:var(--text);margin:1.8rem 0 .8rem;}
+h2.sect:first-child{margin-top:0;}
+h3.subsect{font-family:'JetBrains Mono',monospace;font-size:.78rem;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);margin:1.2rem 0 .6rem;}
+p{color:var(--text);font-size:.95rem;margin-bottom:.8rem;}
+p.muted{color:var(--muted);font-size:.88rem;}
+strong{color:var(--text);}
+ul,ol{margin:0 0 1rem 1.2rem;color:var(--text);font-size:.93rem;}
+li{margin-bottom:.4rem;}
+
+.box{background:var(--surface);border:1px solid var(--border);border-radius:14px;padding:1.4rem 1.6rem;margin-bottom:1.2rem;box-shadow:var(--shadow-card);}
+.box.accent{border-left:3px solid var(--erant);}
+
+/* balio grid intro */
+.values-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin:1rem 0 1.6rem;}
+@media(max-width:700px){.values-grid{grid-template-columns:repeat(2,1fr);}}
+.value-chip{background:var(--surface);border:1px solid var(--border);border-top:3px solid var(--vc);border-radius:12px;padding:14px 10px;text-align:center;box-shadow:var(--shadow-card);}
+.value-chip .vi{font-size:1.6rem;margin-bottom:6px;}
+.value-chip .vn{font-family:'JetBrains Mono',monospace;font-size:.72rem;letter-spacing:.08em;text-transform:uppercase;color:var(--vc);font-weight:700;}
+
+/* timeline */
+.tl{position:relative;padding-left:26px;margin:1rem 0 1.6rem;}
+.tl::before{content:'';position:absolute;left:8px;top:6px;bottom:6px;width:2px;background:var(--border);}
+.tl-item{position:relative;margin-bottom:1.1rem;}
+.tl-item::before{content:'';position:absolute;left:-26px;top:4px;width:12px;height:12px;border-radius:50%;background:var(--tc,var(--erant));border:2px solid var(--surface);box-shadow:0 0 0 2px var(--tc,var(--erant));}
+.tl-time{font-family:'JetBrains Mono',monospace;font-size:.74rem;color:var(--tc,var(--erant));letter-spacing:.05em;font-weight:600;}
+.tl-label{font-weight:700;color:var(--text);font-size:.93rem;margin:2px 0;}
+.tl-desc{font-size:.85rem;color:var(--muted);}
+
+/* station cards */
+.station{background:var(--surface);border:1px solid var(--border);border-top:4px solid var(--sc);border-radius:16px;padding:1.6rem 1.7rem;margin-bottom:1.4rem;box-shadow:var(--shadow-card);}
+.station-head{display:flex;align-items:center;gap:14px;margin-bottom:1rem;flex-wrap:wrap;}
+.station-icon{width:52px;height:52px;border-radius:12px;background:color-mix(in srgb, var(--sc) 12%, white);display:flex;align-items:center;justify-content:center;font-size:1.6rem;flex-shrink:0;}
+.station-title{font-family:'Playfair Display',serif;font-size:1.25rem;font-weight:700;color:var(--text);}
+.station-sub{font-family:'JetBrains Mono',monospace;font-size:.7rem;letter-spacing:.1em;text-transform:uppercase;color:var(--sc);font-weight:700;}
+.station-code{margin-left:auto;font-family:'JetBrains Mono',monospace;font-size:.72rem;background:var(--surface2);border:1px solid var(--border);border-radius:99px;padding:5px 12px;color:var(--muted);}
+.two-col{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-top:.8rem;}
+@media(max-width:640px){.two-col{grid-template-columns:1fr;}}
+.mini-box{background:var(--surface2);border:1px solid var(--border);border-radius:10px;padding:12px 14px;}
+.mini-lbl{font-family:'JetBrains Mono',monospace;font-size:.68rem;letter-spacing:.09em;text-transform:uppercase;color:var(--sc);margin-bottom:6px;font-weight:700;}
+.mini-box p{font-size:.87rem;margin-bottom:.3rem;}
+.mini-box ul{margin-bottom:0;font-size:.85rem;}
+
+/* materials table */
+.mtable{width:100%;border-collapse:collapse;font-size:.85rem;margin-bottom:1.2rem;}
+.mtable th{text-align:left;font-family:'JetBrains Mono',monospace;font-size:.68rem;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);padding:8px 10px;border-bottom:1px solid var(--border);}
+.mtable td{padding:9px 10px;border-bottom:1px solid var(--border);color:var(--text);vertical-align:top;}
+.mtable tr:last-child td{border-bottom:none;}
+.tag{display:inline-block;font-family:'JetBrains Mono',monospace;font-size:.66rem;padding:2px 8px;border-radius:99px;margin-right:3px;margin-bottom:3px;font-weight:600;}
+.tag.fis{background:#fffbeb;color:var(--erant);border:1px solid #fde68a;}
+.tag.dig{background:#ecfeff;color:var(--inklu);border:1px solid #a5f3fc;}
+.pillars{display:flex;flex-direction:column;gap:10px;margin:1rem 0 1.4rem;}
+.pillar-img{width:100%;max-height:170px;object-fit:cover;border-radius:10px;margin-bottom:10px;}
+.pillar{background:var(--surface);border:1px solid var(--border);border-left:4px solid var(--pc,var(--erant));border-radius:0 12px 12px 0;padding:14px 18px;box-shadow:var(--shadow-card);}
+.pillar-h{display:flex;align-items:center;gap:10px;margin-bottom:6px;}
+.pillar-letter{font-family:'Playfair Display',serif;font-weight:700;font-size:1.3rem;color:var(--pc,var(--erant));}
+.pillar-name{font-weight:700;color:var(--text);font-size:.95rem;}
+.pillar p{font-size:.87rem;color:var(--muted);margin-bottom:0;}
+.quote-block{background:var(--surface2);border:1px solid var(--border);border-radius:12px;padding:1.1rem 1.5rem;margin:1rem 0;text-align:center;}
+.quote-block .qtext{font-family:'Playfair Display',serif;font-style:italic;font-size:1.05rem;color:var(--text);margin-bottom:.4rem;}
+.quote-block .qauth{font-family:'JetBrains Mono',monospace;font-size:.72rem;color:var(--muted);letter-spacing:.06em;text-transform:uppercase;}
+
+/* script / gidoia */
+.script-scene{background:var(--surface);border:1px solid var(--border);border-left:3px solid var(--ekime);border-radius:0 12px 12px 0;padding:1.2rem 1.5rem;margin-bottom:1rem;box-shadow:var(--shadow-card);}
+.script-scene .sc-head{display:flex;justify-content:space-between;align-items:baseline;margin-bottom:.5rem;flex-wrap:wrap;gap:6px;}
+.script-scene .sc-num{font-family:'JetBrains Mono',monospace;font-size:.72rem;color:var(--ekime);letter-spacing:.08em;text-transform:uppercase;font-weight:700;}
+.script-scene .sc-time{font-family:'JetBrains Mono',monospace;font-size:.72rem;color:var(--muted);}
+.script-scene .sc-shot{font-size:.78rem;color:var(--muted);font-style:italic;margin-bottom:.4rem;}
+.script-scene .sc-line{font-size:.9rem;color:var(--text);}
+.script-scene .sc-line b{color:var(--ekime);}
+
+.checklist{list-style:none;margin-left:0;}
+.checklist li{display:flex;gap:10px;align-items:flex-start;padding:6px 0;border-bottom:1px dashed var(--border);font-size:.88rem;}
+.checklist li::before{content:'☐';color:var(--muted);font-size:1rem;flex-shrink:0;}
+
+.callout{background:#f0fdf4;border:1px solid #bbf7d0;border-radius:12px;padding:1rem 1.3rem;font-size:.88rem;color:var(--text);margin-bottom:1.2rem;}
+.callout b{color:var(--inter);}
+
+footer{text-align:center;margin-top:3rem;padding-top:1.5rem;border-top:1px solid var(--border);font-family:'JetBrains Mono',monospace;font-size:.72rem;color:var(--muted);}
+</style>
+</head>
+<body>
+
+<div class="wrap">
+  <div class="header">
+    <div class="ev-badge">CIFP Don Bosco LHII · ETHAZI · Aula Interaktiboa</div>
+    <h1 class="ev-title">Balioak 4.0 <span>Escape Room</span></h1>
+    <p class="ev-sub">35-40 minutuko esperientzia hibridoa (sarrera-bideoa + fisikoa + digitala), aula interaktiboko horma eta mahaia baliatuz, FP Euskadiko Balioak 4.0 benetan ezagutu eta barneratzeko.</p>
+  </div>
+
+  <div class="tabs">
+    <button class="tab active" onclick="switchTab('aurkezpena')">📘 Aurkezpena</button>
+    <button class="tab" onclick="switchTab('gelak')">🔐 Gelak / Estazioak</button>
+    <button class="tab" onclick="switchTab('antolaketa')">🧰 Antolaketa</button>
+    <button class="tab" onclick="switchTab('gidoia')">🎬 Gidoia (bideoa)</button>
+  </div>
+
+  <!-- ═══════════ TAB 1: AURKEZPENA ═══════════ -->
+  <div class="panel active" id="panel-aurkezpena">
+    <h2 class="sect">Zer da Balioak 4.0?</h2>
+    <div class="box accent">
+      <p><strong>Balioak 4.0</strong> FP Euskadiko ikaskuntza-ereduaren lan-lerro bat da (iTlent / Talentuaren Euskal Institutua), eta helburu nagusia da <strong>balioetan oinarritutako prestakuntza</strong> heziketa-zikloetan txertatzea, ETHAZI ereduaren testuinguruan. Kontua ez da zeregin gehigarri bat sortzea, baizik eta dagoeneko egiten dena balioen ikuspegitik begiratzea, ikasleek balio horiek beren ohitura eta jarduera profesionalean modu naturalean txerta ditzaten.</p>
+      <p>Ibilbideak <strong>erantzukizunaren printzipiotik</strong> abiatzen dira — erantzukizun indibiduala erantzukizun kolektiborako bidea baita — eta handik, FP Euskadiko lau balio nagusiak lantzen dira:</p>
+    </div>
+
+    <div class="values-grid">
+      <div class="value-chip" style="--vc:var(--solid)"><div class="vi">🤝</div><div class="vn">Solidaritatea</div></div>
+      <div class="value-chip" style="--vc:var(--inklu)"><div class="vi">🧩</div><div class="vn">Inklusioa</div></div>
+      <div class="value-chip" style="--vc:var(--ekime)"><div class="vi">🚀</div><div class="vn">Ekimena</div></div>
+      <div class="value-chip" style="--vc:var(--inter)"><div class="vi">🌐</div><div class="vn">Interdependentzia</div></div>
+    </div>
+
+    <p class="muted">Iturria: iTlent — LHko Talentuaren Euskal Institutua, <em>"Balioak 4.0"</em> (itlent.eus). Erantzukizuna oinarrizko printzipio gisa kokatzen da, eta gainerako lauak horren gainean eraikitzen dira.</p>
+
+    <div class="quote-block">
+      <div class="qtext">"Hezkuntzak ez du mundua aldatzen, baina mundua aldatuko duten pertsonak aldatzen ditu"</div>
+      <div class="qauth">P. Freire — iTlenten Balioak 4.0 liburuxkan aipatua</div>
+    </div>
+
+    <h2 class="sect">iTlent-en jatorrizko ibilbidea: 5 zutabe</h2>
+    <p>iTlent-ek argitaratutako <em>"Balioak 4.0" liburuxka</em> ofizialak (itlent.eus) prestakuntza-ibilbide bat proposatzen du, bost multzotan egituratua. Eszape rooma bost horiek islatzen saiatzen da, modu esperentzialean:</p>
+    <div class="pillars">
+      <div class="pillar" style="--pc:var(--erant)">
+        <img class="pillar-img" src="img/hondartza-oinatzak.jpg" alt="Norbera ezagutzeko bidea">
+        <div class="pillar-h"><span class="pillar-letter">A</span><span class="pillar-name">"Ni"tik — norberaren ezagutza</span></div>
+        <p>Pentsamendu kritiko-analitikoa lantzea eta erantzukizunaren printzipiotik abiatzea: <em>zein naizen, nondik natorren, nora joan nahiko nukeen, zein balio behar ditudan hara heltzeko</em> (ASMOA–IKUSPEGIA–BALIOAK eskema). Banakako erantzukizuna da erantzukizun kolektibora iristeko lehen urratsa.</p>
+      </div>
+      <div class="pillar" style="--pc:var(--solid)">
+        <img class="pillar-img" src="img/idazmakina.jpg" alt="Marka pertsonala eraikitzen">
+        <div class="pillar-h"><span class="pillar-letter">B</span><span class="pillar-name">Marka pertsonala lidergo-marka gisa</span></div>
+        <p>Norberak bere burua ezagutzetik abiatuta, komunikazio-estrategia bat eraikitzea (personal branding), balioetara bideratuta — zintzotasuna, gardentasuna, lankidetza eta enpatia landuz.</p>
+      </div>
+      <div class="pillar" style="--pc:var(--inklu)">
+        <img class="pillar-img" src="img/talde-siluetak.jpg" alt="Balioak elkarrekin eraikitzen">
+        <div class="pillar-h"><span class="pillar-letter">C</span><span class="pillar-name">Balioak</span></div>
+        <p>Zentroak bultzatu nahi dituen balioak identifikatu eta lantegi praktikoetan barneratzea, elkarrizketatik abiatuta — inposatu gabe, inspiratuz eta elkarrekin sortuz.</p>
+      </div>
+      <div class="pillar" style="--pc:var(--ekime)">
+        <img class="pillar-img" src="img/garapen-iraunkorra-helburuak.jpg" alt="NBEren Garapen Iraunkorrerako 17 Helburuak">
+        <div class="pillar-h"><span class="pillar-letter">D</span><span class="pillar-name">Garapen iraunkorra</span></div>
+        <p>Epe luzerako pentsamendua: gaurko erabakiek etorkizuneko belaunaldiengan duten eragina aintzat hartzea. NBEren Garapen Iraunkorrerako 17 Helburuak (GIH) gida eta inspirazio gisa erabiltzen dira.</p>
+      </div>
+      <div class="pillar" style="--pc:var(--inter)">
+        <img class="pillar-img" src="img/eskuak-lorea.jpg" alt="Erantzukizun soziala eta etika">
+        <div class="pillar-h"><span class="pillar-letter">E</span><span class="pillar-name">Erantzukizun Sozial Korporatiboaren hiru printzipioak</span></div>
+        <p><strong>a)</strong> Ingurumen-iraunkortasuna eta zaintza · <strong>b)</strong> Gizarte-arazoak konpontzeko prestakuntza (berdintasuna, dibertsitatea, lan-bizitza uztartzea) · <strong>c)</strong> Etika eta gobernu korporatibo egokia (zintzotasuna, gardentasuna, konfiantza).</p>
+      </div>
+    </div>
+    <p class="muted">Horiez gain, liburuxkak <strong>Zeharkako Ekintzak</strong> proposatzen ditu: boluntariotza (Espainiako VOL+ ziurtagiriaren bidez, arazoak ebazteko, ekimenerako eta talde-lanerako trebeziak egiaztatzen dituena), Master Class-ak eta enpresekiko lankidetza (Ternua, Ecoalf, Auara bezalako adibideak).</p>
+
+    <h2 class="sect">Zergatik Escape Room bat?</h2>
+    <p>Escape Room bat esperientzia bat da non taldeak, denbora mugatuan, <strong>elkarlanean</strong> ibili behar duen arazoak ebazteko — hain zuzen ere, Balioak 4.0k eskatzen duen jarrera bera: erantzukizun kolektiboa, elkarren beharra, ekimena eta denen partaidetza aintzat hartzea. Formatu honek balioak <em>bizitzea</em> ahalbidetzen du, ez soilik azaltzea.</p>
+
+    <div class="callout">💡 <b>Ideia nagusia:</b> gela bakoitzak balio bat lantzen du eta 4 digituko kode bat ematen du. <strong>Interdependentziaren estazioa</strong> azkena da, eta aurreko lauren kodeak konbinatu behar dira kutxa nagusia irekitzeko — metafora zuzena: talde-lana behar da emaitza kolektiboa lortzeko.</p></div>
+
+    <h2 class="sect">Formatuaren funtsa</h2>
+    <div class="two-col">
+      <div class="mini-box" style="--sc:var(--erant)">
+        <div class="mini-lbl">Talde-tamaina eta tokia</div>
+        <p>7–8 ikasleko talde bakarra, gela bakarrean (aula interaktiboa). Ez da beste gelaz aldatu behar; estazio guztiak leku berean daude.</p>
+      </div>
+      <div class="mini-box" style="--sc:var(--erant)">
+        <div class="mini-lbl">Iraupena</div>
+        <p>~35-40 minutu: 5' sarrera-bideoa + 4 × ~7-8' gela (bilaketa + kode fisikoa + galderak + jolasa) + 3-4' azken kandadua.</p>
+      </div>
+      <div class="mini-box" style="--sc:var(--erant)">
+        <div class="mini-lbl">Hibridotasuna</div>
+        <p>Estazio bakoitzak elementu <span class="tag fis">FISIKOA</span> bat du (objektua, kutxa, giltza, txartela...) eta elementu <span class="tag dig">DIGITALA</span> bat, aula interaktiboko horma edo mahaian.</p>
+      </div>
+      <div class="mini-box" style="--sc:var(--erant)">
+        <div class="mini-lbl">Balioztatzea</div>
+        <p>Puzzle bakoitzak digitu bat ematen du. Lau digituek azken kandadua osatzen dute → kutxa nagusia (saria/ziurtagiria/hurrengo erronka).</p>
+      </div>
+      <div class="mini-box" style="--sc:var(--erant)">
+        <div class="mini-lbl">Hormaren erabilera 360°</div>
+        <p>4 jolasetatik hiruk hormaren <strong>perimetro osoa</strong> erabiltzen dute (8 postu banatuta), eta guztiek onartzen dute <strong>aldi bereko parte-hartze anitza</strong> (multitouch benetakoa): zenbat eta ikasle gehiago beren postuan, orduan eta azkarrago osatzen da jolasa — talde osoaren parte-hartzea saritzen duen diseinua, ez norbanako baten abiadura.</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- ═══════════ TAB 2: GELAK / ESTAZIOAK ═══════════ -->
+  <div class="panel" id="panel-gelak">
+    <h2 class="sect">4 estazio + 1 azken kandadua</h2>
+    <p class="muted">Betiko Escape Room baten osagai klasikoak (giltzarrapoak, kutxak, kode ezkutuak, argi beltza, puzzleak, giltza fisikoak) balio bakoitzarekin lotu dira, eta aula interaktiboko horma/mahaia estazio bakoitzaren digital-osagai gisa txertatu da.</p>
+    <div class="callout">Gela bakoitzak (webgunean inplementatuta) <b>4 proba</b> ditu, hurrenkera honetan: <b>1)</b> bilaketa (PDFan edo Interneten) · <b>2)</b> kode fisikoa (irakasleak gelan ezarritako ariketa) · <b>3)</b> galderak (3/6 zuzen) · <b>4)</b> jolas digitala. Ez dago hausnarketa-atalik — proba objektibo eta jarraituak dira, benetako eszape room baten moduan.</div>
+
+    <!-- ESTAZIO 1 -->
+    <div class="station" style="--sc:var(--solid)">
+      <div class="station-head">
+        <div class="station-icon">🤝</div>
+        <div><div class="station-title">1. Estazioa — Solidaritatea</div><div class="station-sub">Denek batera, edo inork ez</div></div>
+        <div class="station-code">Kodea → digitu 1</div>
+      </div>
+      <p>Erronka honek fisikoki <strong>ezinezkoa</strong> da pertsona bakar batek bakarrik gainditzea: horma interaktiboko puzzlea aldi berean ukitu behar da hainbat lekutan.</p>
+      <div class="two-col">
+        <div class="mini-box" style="--sc:var(--solid)">
+          <div class="mini-lbl">🧱 Osagai fisikoa</div>
+          <ul>
+            <li>Giltzarrapo bat 4 kate ezberdinekin lotua (bakoitzak parte-hartzaile bat behar du aldi berean tira egiteko).</li>
+            <li>Bonbila/kandela «adiskidetasun-argia»: taldekide guztiek eskua elkarren gainean jarri behar dute sentsore baten gainean piztu dadin (edo, sinpleago, presio-txartel bat 4 pisu-punturekin).</li>
+          </ul>
+        </div>
+        <div class="mini-box" style="--sc:var(--solid)">
+          <div class="mini-lbl">💻 Osagai digitala — Horma interaktiboa</div>
+          <p>«<strong>Taldeka</strong>» jolasa (aula interaktiboko Horma Interaktiboan dagoena): 30 segundotan, taldekide ezberdinek aldi berean ukitu behar dituzte bolak — inork bakarrik ezin ditu guztiak lehertu. Puntuazio-atalasea gainditzean, kodearen 1. digitua agertzen da pantailan.</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- ESTAZIO 2 -->
+    <div class="station" style="--sc:var(--inklu)">
+      <div class="station-head">
+        <div class="station-icon">🧩</div>
+        <div><div class="station-title">2. Estazioa — Inklusioa</div><div class="station-sub">Guztiontzako sarbidea</div></div>
+        <div class="station-code">Kodea → digitu 2</div>
+      </div>
+      <p>DUA (Diseinu Unibertsala Ikaskuntzarako) printzipioetan oinarritutako estazioa: informazio bera <strong>hainbat bidetatik</strong> ailegatzen da (ikusizkoa, ukimenezkoa, entzunezkoa), eta talde osoak bide guztiak konbinatu behar ditu kodea osatzeko — inor ez baztertzeko, denen ekarpena behar da.</p>
+      <div class="two-col">
+        <div class="mini-box" style="--sc:var(--inklu)">
+          <div class="mini-lbl">🧱 Osagai fisikoa</div>
+          <ul>
+            <li>Braille bidez idatzitako 2 digitu, ukimenez soilik antzeman daitezkeenak (kartoi erliebedun edo Braille txantiloi inprimatuarekin).</li>
+            <li>Audio-mezu labur bat (QR kode batetik entzuten dena) beste digitu bat esaten duena, azentu/hizkuntza ezberdinetan (euskara, gaztelania, ingelesa) — entzumenak lagunduta.</li>
+          </ul>
+        </div>
+        <div class="mini-box" style="--sc:var(--inklu)">
+          <div class="mini-lbl">💻 Osagai digitala — Mahai interaktiboa</div>
+          <p>«<strong>Marraztu</strong>» jolasa: forma bat kolore-kodez ETA hitzez azaltzen da aldi berean (ez soilik ikusiz), eta taldekide guztiek txandaka marraztu behar dute, norberak ahal duen bezala — norbaitek ezin badu ikusi ondo, beste batek deskribatzen dio.</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- ESTAZIO 3 -->
+    <div class="station" style="--sc:var(--ekime)">
+      <div class="station-head">
+        <div class="station-icon">🚀</div>
+        <div><div class="station-title">3. Estazioa — Ekimena</div><div class="station-sub">Ez dago bide bakarra</div></div>
+        <div class="station-code">Kodea → digitu 3</div>
+      </div>
+      <p>Estazio honek ez du irtenbide zuzen bakarra ematen: taldeak <strong>proposatu</strong> behar du nola gainditu erronka baliabide mugatuekin — irakasleak ez du bidea esango, taldeak asmatu behar du.</p>
+      <div class="two-col">
+        <div class="mini-box" style="--sc:var(--ekime)">
+          <div class="mini-lbl">🧱 Osagai fisikoa</div>
+          <ul>
+            <li>Material-kutxa bat (soka, klip, xurgagailu, kartoia...) eta helburu bat: «eraiki zerbait X puntutik Y punturaino iristeko» — hainbat konponbide balio dute.</li>
+            <li>Sormen-txartelak: talde barruan norbaitek ekimena hartu eta ideia bat proposatu behar du 90 segundotan.</li>
+          </ul>
+        </div>
+        <div class="mini-box" style="--sc:var(--ekime)">
+          <div class="mini-lbl">💻 Osagai digitala — Horma interaktiboa</div>
+          <p>Robot-programazio motako sekuentzia librea (dbSariak Gela 4ren logikan oinarritua): taldeak berak erabaki behar du zein bide hartu helburura iristeko, eta akatsak onartzen dira — saiatu, huts egin, berriz saiatu. Helburura iristean, 3. digitua agertzen da.</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- ESTAZIO 4 -->
+    <div class="station" style="--sc:var(--inter)">
+      <div class="station-head">
+        <div class="station-icon">🌐</div>
+        <div><div class="station-title">4. Estazioa — Interdependentzia</div><div class="station-sub">Elkarren beharra</div></div>
+        <div class="station-code">Kodea → digitu 4</div>
+      </div>
+      <p>Puzzle honek <strong>fisikoki banatuta</strong> dauden piezak behar ditu: talde erdiak informazio bat du, beste erdiak beste erdia — elkarri azaldu gabe, ezin da ebatzi.</p>
+      <div class="two-col">
+        <div class="mini-box" style="--sc:var(--inter)">
+          <div class="mini-lbl">🧱 Osagai fisikoa</div>
+          <ul>
+            <li>2 mapa/txartel-multzo osagarri (A taldeak X informazioa, B taldeak Y) — elkartuta soilik zentzua hartzen dute.</li>
+            <li>Giltza bikoitza: bi pertsonak aldi berean biratu behar duten giltzarrapoa (bi eskuz, bi norabidetan).</li>
+          </ul>
+        </div>
+        <div class="mini-box" style="--sc:var(--inter)">
+          <div class="mini-lbl">💻 Osagai digitala — Mahai interaktiboa</div>
+          <p>«<strong>Arrastatu</strong>» jolasa parekatuta: bi taldekidek aldi berean, mahaiaren muturretatik, beren koloreko bolak elkarren laukira eraman behar dituzte — bat bestearen laguntzarik gabe ezin da osatu. Amaitzean, 4. digitua agertzen da.</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- KANDADU NAGUSIA -->
+    <div class="station" style="--sc:var(--erant)">
+      <div class="station-head">
+        <div class="station-icon">🔓</div>
+        <div><div class="station-title">Azken kandadua — Erantzukizun kolektiboa</div><div class="station-sub">4 digituak batu</div></div>
+        <div class="station-code">35-40' amaiera</div>
+      </div>
+      <p>Talde osoak 4 digituak (Solidaritatea → Inklusioa → Ekimena → Interdependentzia) 4 zenbakiko giltzarrapo fisiko batean sartu behar ditu (edo mahai interaktiboko «Kandadua» pantailan, dbSariak formatuan). Irekitzean, <strong>kutxa nagusia</strong> agertzen da: barruan, talde-ziurtagiria («Balioak 4.0 taldea» izendapena) eta, nahi izanez gero, sari sinboliko bat.</p>
+      <p class="muted">Ez dago hausnarketa-atalik: eszape rooma benetako proba-sekuentzia bat da hasieratik amaieraraino, ikasleek euren kabuz gainditu behar dutena.</p>
+    </div>
+  </div>
+
+  <!-- ═══════════ TAB 3: ANTOLAKETA ═══════════ -->
+  <div class="panel" id="panel-antolaketa">
+    <h2 class="sect">Denbora-lerroa (35-40')</h2>
+    <div class="tl">
+      <div class="tl-item" style="--tc:var(--erant)"><div class="tl-time">0:00 – 5:00</div><div class="tl-label">Sarrera-bideoa + erronkaren aurkezpena</div><div class="tl-desc">Balioak 4.0ren bideoa ikusi, kontestua ezarri («kodea blokeatu da»), arauak azaldu, taldea antolatu.</div></div>
+      <div class="tl-item" style="--tc:var(--solid)"><div class="tl-time">5:00 – 13:00</div><div class="tl-label">1. Gela — Solidaritatea</div><div class="tl-desc">Bilaketa (PDF) + kode fisikoa + galderak + Taldeka jolasa (8 postu).</div></div>
+      <div class="tl-item" style="--tc:var(--inklu)"><div class="tl-time">13:00 – 21:00</div><div class="tl-label">2. Gela — Inklusioa</div><div class="tl-desc">Bilaketa (PDF) + kode fisikoa (Braille) + galderak + Marraztu jolasa (8 postu paralelo).</div></div>
+      <div class="tl-item" style="--tc:var(--ekime)"><div class="tl-time">21:00 – 29:00</div><div class="tl-label">3. Gela — Ekimena</div><div class="tl-desc">Bilaketa (PDF) + kode fisikoa (zubia) + galderak + 2 robot-labirinto paralelo.</div></div>
+      <div class="tl-item" style="--tc:var(--inter)"><div class="tl-time">29:00 – 37:00</div><div class="tl-label">4. Gela — Interdependentzia</div><div class="tl-desc">Bilaketa (web) + kode fisikoa (giltza bikoitza) + galderak + jolas parekatua (8 postu).</div></div>
+      <div class="tl-item" style="--tc:var(--erant)"><div class="tl-time">37:00 – 40:00</div><div class="tl-label">Azken kandadua</div><div class="tl-desc">4 kodeak batu eta kutxa ireki.</div></div>
+    </div>
+    <p class="muted">Estazioak lineala izan beharrean, 2 taldetan bana daiteke (7–8 ikasle → 2 azpitalde 3–4koak) eta aldi berean 2 estaziotan hasi, gero txandakatuz — horrela denbora optimizatzen da gela bakar batean.</p>
+
+    <h2 class="sect">Materialen zerrenda</h2>
+    <table class="mtable">
+      <tr><th>Estazioa</th><th>Fisikoa</th><th>Digitala</th></tr>
+      <tr><td>1. Solidaritatea</td><td>4 katerekin lotutako giltzarrapoa; presio-sentsoredun txartela</td><td>Horma interaktiboa — «Taldeka» jolasa</td></tr>
+      <tr><td>2. Inklusioa</td><td>Braille txantiloia; QR + audio hiru hizkuntzatan</td><td>Mahai interaktiboa — «Marraztu» jolasa</td></tr>
+      <tr><td>3. Ekimena</td><td>Material-kutxa (soka, klipak, kartoia...)</td><td>Horma interaktiboa — robot-sekuentzia librea</td></tr>
+      <tr><td>4. Interdependentzia</td><td>2 mapa osagarri; giltza bikoitza</td><td>Mahai interaktiboa — «Arrastatu» parekatua</td></tr>
+      <tr><td>Azken kandadua</td><td>4 digituko giltzarrapo fisikoa; kutxa nagusia; ziurtagiriak</td><td>(aukeran) dbSariak formatuko kandadu digitala</td></tr>
+    </table>
+
+    <h2 class="sect">Antolatzeko checklist</h2>
+    <ul class="checklist">
+      <li>Gelako 4 txoko/mahai antolatu estazio bakoitzarentzat, eta horma/mahai interaktiboa erdian edo eskuragarri utzi.</li>
+      <li>Horma interaktiboko «Taldeka» eta robot-sekuentzia jolasak aurrez probatu proiektorearekin.</li>
+      <li>Mahai interaktiboko «Marraztu» eta «Arrastatu» jolasak konfiguratu.</li>
+      <li>Giltzarrapo fisikoak digitu zuzenekin muntatu (1-2-3-4 balio-hurrenkerarekin bat etorrita).</li>
+      <li>Braille txantiloia inprimatu eta QR audioa grabatu (3 hizkuntzatan).</li>
+      <li>Kronometroa/tenporizadorea gelan ikusgai (35-40').</li>
+      <li>Sarrera-bideoa proiektorean probatu eta konexioa egiaztatu (Balioak 4.0 bideoa, ~4-5').</li>
+      <li>Kutxa nagusia prestatu (ziurtagiriak barruan).</li>
+      <li>Talde-banaketa aurrez erabaki (7–8 ikasle → beharren arabera azpitaldeak).</li>
+    </ul>
+  </div>
+
+  <!-- ═══════════ TAB 4: GIDOIA / BIDEOA ═══════════ -->
+  <div class="panel" id="panel-gidoia">
+    <h2 class="sect">Grabaketarako gidoia</h2>
+    <p class="muted">Ikasleek egin beharreko pausuak agertzen dituen gidoia, tutorial/promo bideo bat grabatzeko (~3–4 minutu). Kamera-oharrak eta ahotsa (off/narrazioa edo ikasle baten ahotsa) bereizita.</p>
+
+    <div class="script-scene" style="--ekime:var(--erant)">
+      <div class="sc-head"><span class="sc-num">Eszena 0 — Sarrera</span><span class="sc-time">0:00–0:20</span></div>
+      <div class="sc-shot">📷 Plano orokorra: gela iluntxo, giltzarrapo eta kutxa nagusia lehen planoan.</div>
+      <div class="sc-line"><b>NARRAZIOA:</b> «Kodea blokeatu da. Balioak 4.0 aktibatu behar dira kutxa irekitzeko. 30 minutu dituzue. Prest?»</div>
+    </div>
+
+    <div class="script-scene" style="--ekime:var(--solid)">
+      <div class="sc-head"><span class="sc-num">Eszena 1 — Solidaritatea</span><span class="sc-time">0:20–0:50</span></div>
+      <div class="sc-shot">📷 Taldekide guztiak batera zerbaiti eusten, gero horma interaktiboan aldi berean ukitzen.</div>
+      <div class="sc-line"><b>IKASLE 1 (ahotsa):</b> «Honek ez du funtzionatzen norbait bakarrik bada — denok batera egin behar dugu.» <b>PAUSUA:</b> talde osoak giltzarrapoari batera eutsi → hormako jolasean denek aldi berean ukitu → 1. digitua ateratzen da.</div>
+    </div>
+
+    <div class="script-scene" style="--ekime:var(--inklu)">
+      <div class="sc-head"><span class="sc-num">Eszena 2 — Inklusioa</span><span class="sc-time">0:50–1:25</span></div>
+      <div class="sc-shot">📷 Detailea: eskuak Braille txantiloia ukitzen; beste ikasle bat QRa eskaneatzen entzuten.</div>
+      <div class="sc-line"><b>IKASLE 2 (ahotsa):</b> «Batzuek ikusiz, beste batzuek entzunez edo ukituz lortzen dute informazioa — guztiok behar gara.» <b>PAUSUA:</b> Brailleko digitua + audioko digitua + mahaiko marrazketa jolasa osatu → 2. digitua.</div>
+    </div>
+
+    <div class="script-scene" style="--ekime:var(--ekime)">
+      <div class="sc-head"><span class="sc-num">Eszena 3 — Ekimena</span><span class="sc-time">1:25–2:00</span></div>
+      <div class="sc-shot">📷 Ikasle batek ideia proposatzen, besteek jarraitzen; material-kutxarekin zerbait eraikitzen.</div>
+      <div class="sc-line"><b>IKASLE 3 (ahotsa):</b> «Ez dago irtenbide bakarra. Norbaitek lehen pausua eman behar du.» <b>PAUSUA:</b> materialekin proposamena eraiki + horman robot-sekuentzia probatu (saiakera-errore bidez) → 3. digitua.</div>
+    </div>
+
+    <div class="script-scene" style="--ekime:var(--inter)">
+      <div class="sc-head"><span class="sc-num">Eszena 4 — Interdependentzia</span><span class="sc-time">2:00–2:35</span></div>
+      <div class="sc-shot">📷 Bi ikasle elkarri azaltzen beren mapa-erdiak; biek batera giltza biratzen; mahaian bi mutur elkarri laguntzen.</div>
+      <div class="sc-line"><b>IKASLE 4 (ahotsa):</b> «Nire erdiak ez du zentzurik zurea gabe.» <b>PAUSUA:</b> mapak konbinatu + giltza bikoitza biratu + mahaiko bola-parekatzea osatu → 4. digitua.</div>
+    </div>
+
+    <div class="script-scene" style="--ekime:var(--erant)">
+      <div class="sc-head"><span class="sc-num">Eszena 5 — Azken kandadua</span><span class="sc-time">2:35–3:15</span></div>
+      <div class="sc-shot">📷 Talde osoa kandadu nagusiaren inguruan; digituak sartzen batera; kutxa irekitzean poza.</div>
+      <div class="sc-line"><b>NARRAZIOA:</b> «Solidaritatea, inklusioa, ekimena, interdependentzia — lau balioak batu dituzue. Hori da erantzukizun kolektiboa.» <b>PAUSUA:</b> 4 digituak kandaduan sartu → irekitzen da → kutxa nagusia atera → ziurtagiriak banatu.</div>
+    </div>
+
+    <div class="script-scene" style="--ekime:var(--inter)">
+      <div class="sc-head"><span class="sc-num">Eszena 6 — Itxiera</span><span class="sc-time">3:15–3:30</span></div>
+      <div class="sc-shot">📷 Talde osoa kamerarantz begira, kutxa irekita eta ziurtagiria erakusten.</div>
+      <div class="sc-line"><b>TALDEA:</b> «Balioak 4.0 Eszape Rooma gainditu dugu!» <em>(Poza adieraztea, besarkadak, garaipen-keinuak)</em></div>
+    </div>
+
+    <h3 class="subsect">Grabaketa-oharrak</h3>
+    <ul>
+      <li>Plano orokor bat gela osoarekin hasieran eta amaieran; bitartean, close-up eskuetan (giltzarrapoak, Braillea, mahai/horma ukipenak).</li>
+      <li>Ahotsak: ikasle bakoitzak esaldi bat esan dezake bere estazioan — ez da narratzaile bakarra behar.</li>
+      <li>Musika/soinu-efektuak gero editatzean gehi daitezke (giltza-hots, konfeti-soinu, tik-tak).</li>
+      <li>Bideoa gero AI erakusleiho / dbSariak / ikastetxeko webgunean partekatu daiteke, beste irakasleentzako eredu gisa.</li>
+    </ul>
+  </div>
+
+  <div class="quote-block" style="margin-top:2rem;">
+    <div class="qtext">"Jende txiki askok, leku txikietan, gauza txikiak egiten, mundua alda dezakete"</div>
+    <div class="qauth">E. Galeano — iTlenten Balioak 4.0 liburuxkaren amaierako aipua</div>
+  </div>
+
+  <footer>Balioak 4.0 Escape Room · CIFP Don Bosco LHII · Errenteria · ETHAZI</footer>
+</div>
+
+<script>
+function switchTab(id){
+  const ids=['aurkezpena','gelak','antolaketa','gidoia'];
+  document.querySelectorAll('.tab').forEach((t,i)=>t.classList.toggle('active',ids[i]===id));
+  document.querySelectorAll('.panel').forEach(p=>p.classList.remove('active'));
+  document.getElementById('panel-'+id).classList.add('active');
+  window.scrollTo({top:0,behavior:'smooth'});
+}
+</script>
+</body>
+</html>
